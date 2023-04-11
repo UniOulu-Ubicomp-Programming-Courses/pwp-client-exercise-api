@@ -1,0 +1,39 @@
+<html>
+    <body>
+        <h2>Certificate Profile</h2>
+        <p>
+            Represents an exercise certificate that proves a group has been able to communicate
+            successfully with the system.
+        </p>
+        <h3>Attributes</h3>
+        <ul>
+            <li><b>certificate:</b> generated certificate (string)</li>
+            <li><b>generated:</b> timestamp for when the certificate was generated (string)</li>
+            <li><b>group:</b> handle of the group the certificate was generated for (string)</li>
+        </ul>
+        <h2>Certificates Profile</h2>
+        <p>
+            Profile for the certificate control resource that includes instructions on how to request
+            a certificate and get notified when it is ready, as well as where it was placed.
+        </p>
+        <h3>Attributes</h3>
+        <ul>
+            <li><b>exchange:</b> name of the exchange that will be used for notifications (string)</li>
+        </ul>
+        <h3>Connection Template Attributes</h3>
+        <ul>
+            <li><b>host:</b> RabbitMQ server address (string)</li>
+            <li><b>port:</b> RabbitMQ server port (integer)</li>
+            <li><b>virtual_host:</b> Virtual host placeholder (string)</li>
+        </ul>
+        <h2>Group Profile</h2>
+        <p>
+            Represents a group known to the system.
+        </p>
+        <h3>Attributes</h3>
+        <ul>
+            <li><b>handle:</b> unique handle for the group (string)</li>
+            <li><b>name:</b> full name of the group (string)</li>
+        </ul>
+    </body>
+</html>
