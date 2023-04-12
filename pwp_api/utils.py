@@ -155,7 +155,6 @@ def require_admin(func):
 
 def require_owner(func):
     def wrapper(self, group, *args, **kwargs):
-        print(request.headers.get("Pwp-Api-Key", ""))
         key_hash = ApiKey.key_hash(request.headers.get("Pwp-Api-Key", "").strip())
         db_key = ApiKey.query.filter_by(group=group).first()
         if db_key is not None and secrets.compare_digest(key_hash, db_key.key):
