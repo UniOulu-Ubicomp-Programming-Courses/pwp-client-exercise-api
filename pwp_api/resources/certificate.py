@@ -70,7 +70,6 @@ class CertificateCollection(Resource):
             "api.certificateitem",
             group=group,
             token=str(uuid.uuid4()),
-            _external=True,
         )
         task.add_namespace("pwpex", url_for("namespace"))
         task.add_control(
