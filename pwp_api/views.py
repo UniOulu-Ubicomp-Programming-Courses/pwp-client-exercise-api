@@ -11,9 +11,9 @@ def profiles():
 
 def entry():
     body = MasonBuilder()
-    body.add_namespace("pwpex", url_for("namespace", _external=True))
+    body.add_namespace("pwpex", url_for("namespace"))
     body.add_control(
         "pwpex:groups",
-        url_for("api.groupcollection", _external=True)
+        url_for("api.groupcollection")
     )
     return Response(json.dumps(body), 200, mimetype=MASON)
