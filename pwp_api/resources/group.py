@@ -22,18 +22,18 @@ class GroupCollection(Resource):
             )
             item.add_control(
                 "self",
-                url_for("api.groupitem", group=group, _external=True)
+                url_for("api.groupitem", group=group)
             )
             item.add_control(
                 "profile",
-                url_for("profiles", _external=True)
+                url_for("profiles")
             )
             items.append(item)
 
         body = MasonBuilder(
             items=items
         )
-        body.add_namespace("pwpex", url_for("namespace", _external=True))
+        body.add_namespace("pwpex", url_for("namespace"))
         return Response(json.dumps(body), mimetype=JSON)
 
     @require_admin
@@ -61,7 +61,7 @@ class GroupCollection(Resource):
             )
 
         return Response(status=201, headers={
-            "Location": url_for("api.groupitem", group=group, _external=True),
+            "Location": url_for("api.groupitem", group=group),
             "Pwp-Api-Key": key
         })
 
@@ -74,18 +74,18 @@ class GroupItem(Resource):
             name=group.name,
             handle=group.handle
         )
-        body.add_namespace("pwpex", url_for("namespace", _external=True))
+        body.add_namespace("pwpex", url_for("namespace"))
         body.add_control(
             "profile",
-            url_for("profiles", _external=True)
+            url_for("profiles")
         )
         body.add_control(
             "pwpex:certificates",
-            url_for("api.groupitem", group=group, _external=True)
+            url_for("api.groupitem", group=group)
         )
         body.add_control(
             "collection",
-            url_for("api.groupcollection", _external=True)
+            url_for("api.groupcollection")
         )
         return Response(json.dumps(group.serialize(), 200, mimetype=JSON))
 

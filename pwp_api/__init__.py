@@ -43,7 +43,7 @@ def create_app(test_config=None):
     # Configuration overrides from config file and using proxyfix when not testing
     if test_config is None:
         app.config.from_pyfile("config.py", silent=True)
-        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1)
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_prefix=1)
     else:
         app.config.from_mapping(test_config)
 

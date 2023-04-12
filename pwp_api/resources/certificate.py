@@ -19,10 +19,10 @@ class CertificateCollection(Resource):
         body = MasonBuilder(
             exchange="notifications",
         )
-        body.add_namespace("pwpex", url_for("namespace", _external=True))
+        body.add_namespace("pwpex", url_for("namespace"))
         body.add_control(
             "profile",
-            url_for("profiles", _external=True)
+            url_for("profiles")
         )
         body.add_control(
             "pwpex:notify-listen",
@@ -50,12 +50,12 @@ class CertificateCollection(Resource):
         )
         body.add_control(
             "pwpex:request-certificate",
-            url_for("api.certificatecollection", group=group, _external=True),
+            url_for("api.certificatecollection", group=group),
             method="POST",
         )
         body.add_control(
             "up",
-            url_for("api.groupitem", group=group, _external=True)
+            url_for("api.groupitem", group=group)
         )
         return Response(json.dumps(body), 200, mimetype=MASON)
 
@@ -72,7 +72,7 @@ class CertificateCollection(Resource):
             token=str(uuid.uuid4()),
             _external=True,
         )
-        task.add_namespace("pwpex", url_for("namespace", _external=True))
+        task.add_namespace("pwpex", url_for("namespace"))
         task.add_control(
             "pwpex:create-certificate",
             result_url,
