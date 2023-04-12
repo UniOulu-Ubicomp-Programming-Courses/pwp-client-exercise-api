@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from pwp_api.backend import RedisBackend, RabbitBackend
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 db = SQLAlchemy()
@@ -39,11 +40,17 @@ def create_app(test_config=None):
         CACHE_TYPE="SimpleCache"
     )
 
-    # Configuration overrides from config file
+    # Configuration overrides from config file and using proxyfix when not testing
     if test_config is None:
         app.config.from_pyfile("config.py", silent=True)
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1)
     else:
         app.config.from_mapping(test_config)
+
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
 
     db.init_app(app)
 
