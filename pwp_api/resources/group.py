@@ -81,7 +81,7 @@ class GroupItem(Resource):
         )
         body.add_control(
             "pwpex:certificates",
-            url_for("api.groupitem", group=group)
+            url_for("api.certificatecollection", group=group)
         )
         body.add_control(
             "collection",
