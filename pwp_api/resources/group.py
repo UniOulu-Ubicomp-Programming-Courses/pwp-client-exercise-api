@@ -87,7 +87,7 @@ class GroupItem(Resource):
             "collection",
             url_for("api.groupcollection")
         )
-        return Response(json.dumps(group.serialize(), 200, mimetype=JSON))
+        return Response(json.dumps(group.serialize()), 200, mimetype=JSON)
 
     @require_admin
     def delete(self, group):
