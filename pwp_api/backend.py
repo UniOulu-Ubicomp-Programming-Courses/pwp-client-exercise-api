@@ -1,4 +1,5 @@
 import json
+import random
 import ssl
 import pika
 import redis
@@ -67,11 +68,11 @@ class RabbitBackend(object):
             ssl_options=pika.SSLOptions(context)
         ))
 
-    def send_task(self, body):
+    def send_task(self, body, token):
         connection = self.get_connection()
         channel = connection.channel()
         channel.queue_declare(
-            queue="delay",
+            queue=f"delay-{token}",
             arguments={
                 "x-dead-letter-exchange": "",
                 "x-dead-letter-routing-key": "tasks",

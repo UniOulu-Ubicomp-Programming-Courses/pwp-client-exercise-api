@@ -82,7 +82,7 @@ class CertificateCollection(Resource):
             "pwpex:get-certificate",
             result_url,
         )
-        rabbit.send_task(task)
+        rabbit.send_task(task, token)
         return Response(status=202)
 
 
