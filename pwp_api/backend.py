@@ -81,7 +81,7 @@ class RabbitBackend(object):
         )
         channel.basic_publish(
             exchange="",
-            routing_key="delay",
+            routing_key=f"delay-{token}",
             body=json.dumps(body),
         )
         connection.close()

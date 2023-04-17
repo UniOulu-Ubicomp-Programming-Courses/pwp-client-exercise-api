@@ -108,7 +108,7 @@ class CertificateItem(Resource):
         except ValidationError:
             raise BadRequest(description=str(e))
 
-        redis.save(token, request.json, timeout=20)
+        redis.save(token, request.json, timeout=5)
         return Response(status=201)
 
 
