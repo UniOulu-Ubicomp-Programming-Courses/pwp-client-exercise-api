@@ -66,10 +66,11 @@ class CertificateCollection(Resource):
             salt=group.salt,
             vhost=f"{group.handle}-vhost",
         )
+        token = str(uuid.uuid4())
         result_url = url_for(
             "api.certificateitem",
             group=group,
-            token=str(uuid.uuid4()),
+            token=token,
         )
         task.add_namespace("pwpex", url_for("namespace"))
         task.add_control(
