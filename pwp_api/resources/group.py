@@ -43,7 +43,7 @@ class GroupCollection(Resource):
 
         try:
             validate(request.json, Group.json_schema(), cls=Draft7Validator)
-        except ValidationError:
+        except ValidationError as e:
             raise BadRequest(description=str(e))
 
         group = Group()
