@@ -76,7 +76,7 @@ class RabbitBackend(object):
             arguments={
                 "x-dead-letter-exchange": "",
                 "x-dead-letter-routing-key": "tasks",
-                "x-message-ttl": random.randint(5000, 5000 * 3600 * 3600),
+                "x-message-ttl": random.randint(5000, 1000 * 3600),
             }
         )
         channel.basic_publish(

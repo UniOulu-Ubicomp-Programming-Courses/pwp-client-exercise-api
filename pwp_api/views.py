@@ -14,6 +14,7 @@ def entry():
     body.add_namespace("pwpex", url_for("namespace"))
     body.add_control(
         "pwpex:groups",
-        url_for("api.groupcollection")
+        url_for("api.groupcollection"),
+        title="List of groups"
     )
     return Response(json.dumps(body), 200, mimetype=MASON)

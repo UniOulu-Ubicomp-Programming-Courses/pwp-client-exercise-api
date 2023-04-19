@@ -27,6 +27,7 @@ class CertificateCollection(Resource):
         body.add_control(
             "pwpex:notify-listen",
             rabbit.uri_template,
+            title="Notification listen URL / connection parameters",
             schema={
                 "type": "object",
                 "required": ["username", "password"],
@@ -76,12 +77,14 @@ class CertificateCollection(Resource):
         task.add_control(
             "pwpex:create-certificate",
             result_url,
+            title="Create a new certificate",
             method="PUT",
             schema=cert_schema,
         )
         task.add_control(
             "pwpex:get-certificate",
             result_url,
+            title="Download generated certificate",
         )
         rabbit.send_task(task, token)
         return Response(status=202)
