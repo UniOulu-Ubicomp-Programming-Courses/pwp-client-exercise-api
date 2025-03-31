@@ -1,17 +1,17 @@
 import json
 import random
 import ssl
+from flask import current_app
 import pika
 import redis
 
 
 class RedisBackend(object):
 
-    def __init__(self, uri_string, passwd):
-        address, self.db =  uri_string.rsplit("/", 1)
-        host, port = address.rsplit(":", 1)
-        self.host = host
-        self.port = int(port)
+    def __init__(self):
+        self.db = current_app.config["REDIS_DB"]
+        self.host = current_app.config["REDIS_HOST"]
+        self.port = current_app.config.get("REDIS_PORT", 6379)
         self.passwd = passwd
 
     def get_client(self):
@@ -36,12 +36,11 @@ class RedisBackend(object):
 
 class RabbitBackend(object):
 
-    def __init__(self, broker, user, passwd):
-        host, port = broker.split(":")
-        self.host = host
-        self.port = int(port)
-        self.user = user
-        self.passwd = passwd
+    def __init__(self):
+        self.host = current_app.config["RABBITMQ_HOST"]
+        self.port = current_app.config.get("RABBITMQ_PORT", 5671)
+        self.user = current_app.config["RABBITMQ_USER"]
+        self.passwd = current_app.config["RABBITMQ_PASS"]
         self.credentials = pika.PlainCredentials(self.user, self.passwd)
 
     @property
@@ -57,9 +56,12 @@ class RabbitBackend(object):
         }
 
     def get_connection(self):
-        context = ssl.create_default_context()
-        context.check_hostname = False
-        context.verify_mode = ssl.CERT_NONE
+        context = ssl.create_default_context(cafile=current_app.config["CA_CERT"])
+        context.verify_mode = ssl.CERT_REQUIRED
+        context.load_cert_chain(
+            current_app.config["CLIENT_CERT"],
+            current_app.config["CLIENT_KEY"],
+        )
         return pika.BlockingConnection(pika.ConnectionParameters(
             self.host,
             self.port,
@@ -85,9 +87,3 @@ class RabbitBackend(object):
             body=json.dumps(body),
         )
         connection.close()
-
-
-
-
-
-

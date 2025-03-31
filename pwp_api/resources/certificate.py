@@ -7,7 +7,7 @@ from flask import Response, request, url_for
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import BadRequest, Conflict, NotFound, UnsupportedMediaType
-from pwp_api import db, redis, rabbit
+from pwp_api import backend, db
 from pwp_api.constants import JSON, MASON
 from pwp_api.models import cert_schema
 from pwp_api.utils import require_admin, require_owner, MasonBuilder
@@ -24,6 +24,7 @@ class CertificateCollection(Resource):
             "profile",
             url_for("profiles")
         )
+        rabbit = backend.RabbitBackend()
         body.add_control(
             "pwpex:notify-listen",
             rabbit.uri_template,
@@ -86,6 +87,7 @@ class CertificateCollection(Resource):
             result_url,
             title="Download generated certificate",
         )
+        rabbit = backend.RabbitBackend()
         rabbit.send_task(task, token)
         return Response(status=202)
 
@@ -111,6 +113,7 @@ class CertificateItem(Resource):
         except ValidationError:
             raise BadRequest(description=str(e))
 
+        redis = backend.RedisBackend()
         redis.save(token, request.json, timeout=5)
         return Response(status=201)
 
