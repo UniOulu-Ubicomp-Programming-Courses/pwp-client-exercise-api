@@ -12,7 +12,7 @@ class RedisBackend(object):
         self.db = current_app.config["REDIS_DB"]
         self.host = current_app.config["REDIS_HOST"]
         self.port = current_app.config.get("REDIS_PORT", 6379)
-        self.passwd = passwd
+        #self.passwd = passwd
 
     def get_client(self):
         return redis.Redis(
