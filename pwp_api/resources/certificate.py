@@ -96,9 +96,10 @@ class CertificateItem(Resource):
 
     @require_owner
     def get(self, group, token):
+        redis = backend.RedisBackend()
         try:
             value = redis.load(token)
-        except Exception:
+        except TypeError:
             raise NotFound
         else:
             return Response(json.dumps(value), 200, mimetype=JSON)
